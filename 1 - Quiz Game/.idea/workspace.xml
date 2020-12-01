@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="5cbea09a-c2f6-47a0-8218-e7268fa5bbe2" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Go Application" />
+      </list>
+    </option>
+  </component>
+  <component name="GOROOT" path="/usr/lib/golang" />
+  <component name="GitToolBoxStore">
+    <option name="projectConfigVersion" value="2" />
+  </component>
+  <component name="ProjectId" id="1l466I5QdxbKLLNef4i6UMkxoL7" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DefaultGoTemplateProperty" value="Go Application" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="go.import.settings.migrated" value="true" />
+    <property name="last_opened_file_path" value="$USER_HOME$" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+  </component>
+  <component name="RunManager">
+    <configuration name="go build main.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="1 - Quiz Game" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="FILE" />
+      <filePath value="$PROJECT_DIR$/main.go" />
+      <package value="1 - Quiz Game" />
+      <directory value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Go Build.go build main.go" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="418" y="215" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1606844161932">
+      <screen x="0" y="34" width="1920" height="1046" />
+    </state>
+    <state x="418" y="215" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.34.1920.1046@0.34.1920.1046" timestamp="1606844161932" />
+    <state width="1878" height="275" key="GridCell.Tab.0.bottom" timestamp="1606850869979">
+      <screen x="0" y="34" width="1920" height="1046" />
+    </state>
+    <state width="1878" height="275" key="GridCell.Tab.0.bottom/0.34.1920.1046@0.34.1920.1046" timestamp="1606850869979" />
+    <state width="1878" height="275" key="GridCell.Tab.0.center" timestamp="1606850869975">
+      <screen x="0" y="34" width="1920" height="1046" />
+    </state>
+    <state width="1878" height="275" key="GridCell.Tab.0.center/0.34.1920.1046@0.34.1920.1046" timestamp="1606850869975" />
+    <state width="1878" height="275" key="GridCell.Tab.0.left" timestamp="1606850869973">
+      <screen x="0" y="34" width="1920" height="1046" />
+    </state>
+    <state width="1878" height="275" key="GridCell.Tab.0.left/0.34.1920.1046@0.34.1920.1046" timestamp="1606850869973" />
+    <state width="1878" height="275" key="GridCell.Tab.0.right" timestamp="1606850869977">
+      <screen x="0" y="34" width="1920" height="1046" />
+    </state>
+    <state width="1878" height="275" key="GridCell.Tab.0.right/0.34.1920.1046@0.34.1920.1046" timestamp="1606850869977" />
+    <state x="0" y="34" width="1920" height="1046" key="SettingsEditor" timestamp="1606844104298">
+      <screen x="0" y="34" width="1920" height="1046" />
+    </state>
+    <state x="0" y="34" width="1920" height="1046" key="SettingsEditor/0.34.1920.1046@0.34.1920.1046" timestamp="1606844104298" />
+    <state x="579" y="236" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1606850069211">
+      <screen x="0" y="34" width="1920" height="1046" />
+    </state>
+    <state x="579" y="236" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.34.1920.1046@0.34.1920.1046" timestamp="1606850069211" />
+    <state x="548" y="213" key="editAsTableFormatDialogDimension" timestamp="1606843984706">
+      <screen x="0" y="34" width="1920" height="1046" />
+    </state>
+    <state x="548" y="213" key="editAsTableFormatDialogDimension/0.34.1920.1046@0.34.1920.1046" timestamp="1606843984706" />
+    <state x="623" y="264" width="672" height="678" key="search.everywhere.popup" timestamp="1606848623924">
+      <screen x="0" y="34" width="1920" height="1046" />
+    </state>
+    <state x="623" y="264" width="672" height="678" key="search.everywhere.popup/0.34.1920.1046@0.34.1920.1046" timestamp="1606848623923" />
+  </component>
+</project>

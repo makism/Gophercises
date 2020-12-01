@@ -1,2 +1,3 @@
 # Gophercises
-Gophercises, yup
+
+My solutions to `Gophercises`;
