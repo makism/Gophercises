@@ -1,3 +1,3 @@
-# Gophercises
+My solutions to [Gophercises](https://gophercises.com/).
 
-My solutions to `Gophercises`;
+1. [Quiz Game](https://courses.calhoun.io/lessons/les_goph_01)
