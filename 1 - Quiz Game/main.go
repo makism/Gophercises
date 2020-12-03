@@ -2,90 +2,101 @@ package main
 
 import (
 	"encoding/csv"
+	"flag"
 	"fmt"
 	"io"
 	"log"
 	"os"
 	"strconv"
+	"time"
 )
 
-const DEFAULT_CSV string = "problems.csv"
-const DEFAULT_LIMIT int = 30
-
-type settings struct {
-	csv string
+type parsedArgs struct {
+	csv   string
 	limit int
 }
 
-func showUsage(binary string) {
-	fmt.Print("Usage ./"+ binary + "\n" +
-		"\t-input string\n" +
-		"\t       a csv file in the format of 'question,answer' (default \"problems.csv\")\n" +
-		"\t-limit int\n" +
-		"\t       the time limit for the quiz in seconds (default 30)\n")
+type question struct {
+	problem string
+	answer  int
 }
 
-func parseArgs(args []string) settings {
-	sets := settings{
-		limit: DEFAULT_LIMIT,
-		csv: DEFAULT_CSV,
-	}
+func prepareQuestions(pa parsedArgs) []question {
+	var questions []question
+	csvFile, err := os.Open(pa.csv)
 
-	for i, v := range args {
-		if v == "-input" {
-			sets.csv = args[i + 1]
-		} else if v == "-limit" {
-			sets.limit, _ = strconv.Atoi(args[i + 1])
+	if err == nil {
+		r := csv.NewReader(csvFile)
+
+		for {
+			record, err := r.Read()
+			if err == io.EOF {
+				break
+			}
+			if err != nil {
+				log.Fatal(err)
+			}
+			convRecord, err := strconv.Atoi(record[1])
+
+			if err == nil {
+				q := question{
+					record[0],
+					convRecord,
+				}
+
+				questions = append(questions, q)
+			}
 		}
-	}
-
-	return sets
-}
-
-func main() {
-	args := os.Args[1:]
-
-	if l := len(args); l == 0 {
-		showUsage(os.Args[0])
+	} else {
+		fmt.Println("Failed reading the CSV file.")
 		os.Exit(1)
 	}
 
-	parsed_args := parseArgs(args)
-	fmt.Println(parsed_args)
+	return questions
+}
 
-	csv_file, _ := os.Open(parsed_args.csv)
-	r := csv.NewReader(csv_file)
+func main() {
+	pa := parsedArgs{}
+	flag.StringVar(&pa.csv, "input", "problems.csv", "a csv file in the format of 'question,answer'")
+	flag.IntVar(&pa.limit, "limit", 30, "the time limit for the quiz in seconds")
+	flag.Parse()
 
-	correct_answers := 0
+	questions := prepareQuestions(pa)
 
-	i := 0
-	for {
-		i += 1
+	timerDone := time.NewTimer(time.Duration(pa.limit) * time.Second)
 
-		record, err := r.Read()
-		if err == io.EOF {
-			break
-		}
-		if err != nil {
-			log.Fatal(err)
-		}
+	correctAnswers := 0
 
-		fmt.Printf(
-			"Problem #%d: %s = ",
-			i,
-			record[0],
-		)
+mainLoop:
+	for i, q := range questions {
+		chanAnswer := make(chan string)
+		go func() {
 
-		var answer string
-		fmt.Scanf("%s", &answer)
+			fmt.Printf(
+				"Problem #%d: %s = ",
+				i+1,
+				q.problem,
+			)
 
-		conv_answer, _ := strconv.Atoi(answer)
-		conv_record, _ := strconv.Atoi(record[1])
-		if conv_answer == conv_record {
-			correct_answers +=1
+			var answer string
+			fmt.Scanf("%s", &answer)
+
+			chanAnswer <- answer
+		}()
+
+		select {
+		case <-timerDone.C:
+			fmt.Println("\nTime's up!")
+			break mainLoop
+		case readAnswer := <-chanAnswer:
+			checkAnswer, _ := strconv.Atoi(readAnswer)
+
+			if checkAnswer == q.answer {
+				correctAnswers++
+			}
 		}
 	}
 
-	fmt.Println("You scored ", correct_answers, " out of ", i, ".")
+	fmt.Printf("You scored %d out of %d.\n", correctAnswers, len(questions))
 
 }
