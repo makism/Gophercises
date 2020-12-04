@@ -1,11 +1,22 @@
 package main
 
 import (
+	"flag"
 	"fmt"
+	"io/ioutil"
 	"net/http"
+	"os"
 )
 
 func main() {
+	input := *flag.String("mapping", "input.yml", "Input YAML containing the mapping.")
+	flag.Parse()
+
+	if _, err := os.Stat(input); err != nil {
+		fmt.Printf("There was an error trying reading the file %s.\n", input)
+		os.Exit(1)
+	}
+
 	mux := defaultMux()
 
 	// Build the MapHandler using the mux as the fallback
@@ -17,12 +28,8 @@ func main() {
 
 	// Build the YAMLHandler using the mapHandler as the
 	// fallback
-	yaml := `
-- path: /urlshort
-  url: https://github.com/gophercises/urlshort
-- path: /urlshort-final
-  url: https://github.com/gophercises/urlshort/tree/solution
-`
+	yaml, _ := loadYaml(input)
+
 	yamlHandler, err := YAMLHandler([]byte(yaml), mapHandler)
 	if err != nil {
 		panic(err)
@@ -39,4 +46,9 @@ func defaultMux() *http.ServeMux {
 
 func hello(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintln(w, "Hello, world!")
+}
+
+func loadYaml(filename string) ([]byte, error) {
+	data, err := ioutil.ReadFile(filename)
+	return data, err
 }
