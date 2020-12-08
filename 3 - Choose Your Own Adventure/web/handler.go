@@ -7,22 +7,15 @@ import (
 )
 
 func StoryHandler(story Story) http.HandlerFunc {
-	fallbackHandler := DefaultMux()
-
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		pathToChapter := strings.ToLower(r.URL.Path[1:])
 
 		if chapter, ok := story[pathToChapter]; ok {
 			TemplatedStory(w, chapter)
 		} else {
-			fallbackHandler.ServeHTTP(w, r)
+			http.Redirect(w, r, "http://localhost:8080/intro", http.StatusPermanentRedirect)
 		}
 	})
-}
-
-func DefaultMux() *http.ServeMux {
-	mux := http.NewServeMux()
-	return mux
 }
 
 func TemplatedStory(w http.ResponseWriter, chapter Chapter) {
