@@ -1,13 +1,12 @@
 package main
 
 import (
-	"encoding/json"
 	"flag"
 	"fmt"
 	"golang.org/x/net/html"
 	"net/http"
 	"os"
-	"strings"
+	"sync"
 )
 
 type Link struct {
@@ -36,9 +35,13 @@ func NewLink() Link {
 	}
 }
 
-func main() {
-	opts := NewOptions()
+var wg sync.WaitGroup
 
+var opts = NewOptions()
+
+var depth int = 0
+
+func main() {
 	flag.StringVar(&opts.Url, "url", "https://golang.org", "URL to crawl.")
 	flag.IntVar(&opts.depth, "depth", 10, "Maximum link depth.")
 	flag.Parse()
@@ -48,9 +51,38 @@ func main() {
 		os.Exit(1)
 	}
 
-	if resp, err := http.Get(opts.Url); err == nil {
-		defer resp.Body.Close()
+	root := parseStartPage(opts.Url)
 
+	for i, _ := range root.To {
+		wg.Add(1)
+		go func(root *Link, index int) {
+			url := opts.Url + root.To[index].Href
+
+			if resp, err := http.Get(url); err == nil {
+				page, _ := html.Parse(resp.Body)
+
+				newLink := NewLink()
+				newLink.Depth = root.To[index].Depth + 1
+
+				processNode(page, &newLink)
+
+				root.To[index].To = append(root.To[index].To, newLink)
+			}
+
+			wg.Done()
+		}(&root, i)
+	}
+
+	wg.Wait()
+
+	prettyPrint(root)
+}
+
+func parseStartPage(url string) Link {
+	resp, err := http.Get(url)
+	defer resp.Body.Close()
+
+	if err == nil {
 		doc, err := html.Parse(resp.Body)
 
 		if err != nil {
@@ -60,44 +92,12 @@ func main() {
 
 		root := NewLink()
 		processNode(doc, &root)
-	}
-}
 
-func prettyPrint(d Link) {
-	if res, err := json.MarshalIndent(d, "", "    "); err == nil {
-		fmt.Println(string(res))
-	}
-}
-
-func processNode(n *html.Node, l *Link) {
-	if n.Type == html.ElementNode && n.Data == "a" {
-		newLink := extractLink(n)
-
-		if newLink != "" {
-			if l.Href == "" {
-				l.Href = newLink
-			} else {
-				nl := NewLink()
-				nl.Depth = l.Depth + 1
-				nl.Href = newLink
-				l.To = append(l.To, nl)
-			}
-		}
+		return root
+	} else {
+		fmt.Println(err)
+		os.Exit(1)
 	}
 
-	for c := n.FirstChild; c != nil; c = c.NextSibling {
-		processNode(c, l)
-	}
-}
-
-func extractLink(n *html.Node) string {
-	for _, v := range n.Attr {
-		if v.Key == "href" {
-			if strings.HasPrefix(v.Val, "/") {
-				return v.Val
-			}
-		}
-	}
-
-	return ""
+	return Link{}
 }
