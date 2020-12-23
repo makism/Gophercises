@@ -7,12 +7,14 @@ import (
 
 func processNode(n *html.Node, l *Link) {
 	if n.Type == html.ElementNode && n.Data == "a" {
-		newLink := extractLink(n)
+		newLink := extractLink(n, l.Href)
 
 		if newLink != "" {
 			nl := NewLink()
 			nl.Depth = l.Depth + 1
-			nl.Href = newLink
+			nl.Href = l.Href + newLink
+			nl.Text = newLink
+
 			l.To = append(l.To, nl)
 		}
 	}
@@ -22,13 +24,14 @@ func processNode(n *html.Node, l *Link) {
 	}
 }
 
-func extractLink(n *html.Node) string {
+func extractLink(n *html.Node, url string) string {
 	for _, v := range n.Attr {
 		if v.Key == "href" {
-			if (strings.HasPrefix(v.Val, "http://") == false && strings.HasPrefix(v.Val, "https://") == false) || strings.HasPrefix(v.Val, "/") {
-				//if v.Val != "/" {
+			if strings.HasPrefix(v.Val, "./") ||
+				strings.HasPrefix(v.Val, "../") ||
+				strings.HasPrefix(v.Val, "/") ||
+				(strings.HasPrefix(v.Val, "http://") == false && strings.HasPrefix(v.Val, "https://") == false) {
 				return v.Val
-				//}
 			}
 		}
 	}

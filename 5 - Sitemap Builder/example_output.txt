@@ -1,35 +1,61 @@
-➜  home ./5\ -\ Sitemap\ Builder -depth 2 -url https://neurobastard.io/
+➜  src ./5\ -\ Sitemap\ Builder -url https://neurobastard.io -depth 2
 {
-    "Href": "https://neurobastard.io/",
+    "Text": "https://neurobastard.io",
+    "Href": "https://neurobastard.io",
     "Depth": 0,
     "To": [
         {
-            "Href": "/about/",
+            "Text": "/about/",
+            "Href": "https://neurobastard.io/about/",
             "Depth": 1,
             "To": [
                 {
-                    "Href": "mothership",
+                    "Text": "mothership",
+                    "Href": "https://neurobastard.io/about/mothership",
+                    "Depth": 2,
+                    "To": []
+                },
+                {
+                    "Text": "/",
+                    "Href": "https://neurobastard.io/about//",
                     "Depth": 2,
                     "To": []
                 }
             ]
         },
         {
-            "Href": "/life/",
-            "Depth": 1,
-            "To": []
-        },
-        {
-            "Href": "/projects/",
+            "Text": "/life/",
+            "Href": "https://neurobastard.io/life/",
             "Depth": 1,
             "To": [
                 {
-                    "Href": "mothership",
+                    "Text": "/",
+                    "Href": "https://neurobastard.io/life//",
+                    "Depth": 2,
+                    "To": []
+                }
+            ]
+        },
+        {
+            "Text": "/projects/",
+            "Href": "https://neurobastard.io/projects/",
+            "Depth": 1,
+            "To": [
+                {
+                    "Text": "mothership",
+                    "Href": "https://neurobastard.io/projects/mothership",
                     "Depth": 2,
                     "To": []
                 },
                 {
-                    "Href": "mtggg_mtghello",
+                    "Text": "mtggg_mtghello",
+                    "Href": "https://neurobastard.io/projects/mtggg_mtghello",
+                    "Depth": 2,
+                    "To": []
+                },
+                {
+                    "Text": "/",
+                    "Href": "https://neurobastard.io/projects//",
                     "Depth": 2,
                     "To": []
                 }

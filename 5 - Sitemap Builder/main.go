@@ -10,6 +10,7 @@ import (
 )
 
 type Link struct {
+	Text  string `json:"Text"`
 	Href  string `json:"Href"`
 	Depth int    `json:"Depth"`
 	To    []Link `json:"To"`
@@ -30,6 +31,7 @@ func NewOptions() Options {
 func NewLink() Link {
 	return Link{
 		Href:  "",
+		Text:  "",
 		Depth: 0,
 		To:    make([]Link, 0, 5),
 	}
@@ -61,7 +63,7 @@ func main() {
 }
 
 func parseSubPage(root *Link, index int, release bool) {
-	url := opts.Url + root.To[index].Href
+	url := root.To[index].Href
 
 	if resp, err := http.Get(url); err == nil {
 		page, _ := html.Parse(resp.Body)
@@ -102,6 +104,7 @@ func parseStartPage(url string) Link {
 
 		root := NewLink()
 		root.Href = url
+		root.Text = url
 		processNode(doc, &root)
 
 		return root
