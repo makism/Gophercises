@@ -17,13 +17,13 @@ type Link struct {
 
 type Options struct {
 	Url   string
-	depth int
+	Depth int
 }
 
 func NewOptions() Options {
 	return Options{
 		Url:   "",
-		depth: 10,
+		Depth: 5,
 	}
 }
 
@@ -39,11 +39,9 @@ var wg sync.WaitGroup
 
 var opts = NewOptions()
 
-var depth int = 0
-
 func main() {
 	flag.StringVar(&opts.Url, "url", "https://golang.org", "URL to crawl.")
-	flag.IntVar(&opts.depth, "depth", 10, "Maximum link depth.")
+	flag.IntVar(&opts.Depth, "depth", 5, "Maximum link depth.")
 	flag.Parse()
 
 	if opts.Url == "" {
@@ -53,29 +51,41 @@ func main() {
 
 	root := parseStartPage(opts.Url)
 
-	for i, _ := range root.To {
-		wg.Add(1)
-		go func(root *Link, index int) {
-			url := opts.Url + root.To[index].Href
-
-			if resp, err := http.Get(url); err == nil {
-				page, _ := html.Parse(resp.Body)
-
-				newLink := NewLink()
-				newLink.Depth = root.To[index].Depth + 1
-
-				processNode(page, &newLink)
-
-				root.To[index].To = append(root.To[index].To, newLink)
-			}
-
-			wg.Done()
-		}(&root, i)
+	wg.Add(1)
+	for i := range root.To {
+		go parseSubPage(&root, i, true)
 	}
-
 	wg.Wait()
 
 	prettyPrint(root)
+}
+
+func parseSubPage(root *Link, index int, release bool) {
+	url := opts.Url + root.To[index].Href
+
+	if resp, err := http.Get(url); err == nil {
+		page, _ := html.Parse(resp.Body)
+
+		newLink := root.To[index]
+
+		if newLink.Depth >= opts.Depth {
+			if release {
+				wg.Done()
+			}
+			return
+		}
+
+		processNode(page, &newLink)
+		root.To[index] = newLink
+
+		for i, _ := range newLink.To {
+			parseSubPage(&newLink, i, false)
+		}
+	}
+
+	if release {
+		wg.Done()
+	}
 }
 
 func parseStartPage(url string) Link {
@@ -91,6 +101,7 @@ func parseStartPage(url string) Link {
 		}
 
 		root := NewLink()
+		root.Href = url
 		processNode(doc, &root)
 
 		return root

@@ -10,14 +10,10 @@ func processNode(n *html.Node, l *Link) {
 		newLink := extractLink(n)
 
 		if newLink != "" {
-			if l.Href == "" {
-				l.Href = newLink
-			} else {
-				nl := NewLink()
-				nl.Depth = l.Depth + 1
-				nl.Href = newLink
-				l.To = append(l.To, nl)
-			}
+			nl := NewLink()
+			nl.Depth = l.Depth + 1
+			nl.Href = newLink
+			l.To = append(l.To, nl)
 		}
 	}
 
@@ -29,8 +25,10 @@ func processNode(n *html.Node, l *Link) {
 func extractLink(n *html.Node) string {
 	for _, v := range n.Attr {
 		if v.Key == "href" {
-			if strings.HasPrefix(v.Val, "/") {
+			if (strings.HasPrefix(v.Val, "http://") == false && strings.HasPrefix(v.Val, "https://") == false) || strings.HasPrefix(v.Val, "/") {
+				//if v.Val != "/" {
 				return v.Val
+				//}
 			}
 		}
 	}
