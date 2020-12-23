@@ -1,3 +1,7 @@
+# v4
+
+* Fix race condition.
+
 # v3
 
 * Parse properly the links.

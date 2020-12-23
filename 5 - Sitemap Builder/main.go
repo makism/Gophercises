@@ -51,8 +51,8 @@ func main() {
 
 	root := parseStartPage(opts.Url)
 
-	wg.Add(1)
 	for i := range root.To {
+		wg.Add(1)
 		go parseSubPage(&root, i, true)
 	}
 	wg.Wait()
