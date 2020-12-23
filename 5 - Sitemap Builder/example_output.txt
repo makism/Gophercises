@@ -1,0 +1,39 @@
+➜  home ./5\ -\ Sitemap\ Builder -depth 2 -url https://neurobastard.io/
+{
+    "Href": "https://neurobastard.io/",
+    "Depth": 0,
+    "To": [
+        {
+            "Href": "/about/",
+            "Depth": 1,
+            "To": [
+                {
+                    "Href": "mothership",
+                    "Depth": 2,
+                    "To": []
+                }
+            ]
+        },
+        {
+            "Href": "/life/",
+            "Depth": 1,
+            "To": []
+        },
+        {
+            "Href": "/projects/",
+            "Depth": 1,
+            "To": [
+                {
+                    "Href": "mothership",
+                    "Depth": 2,
+                    "To": []
+                },
+                {
+                    "Href": "mtggg_mtghello",
+                    "Depth": 2,
+                    "To": []
+                }
+            ]
+        }
+    ]
+}
