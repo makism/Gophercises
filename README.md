@@ -44,3 +44,4 @@ My solutions to [Gophercises](https://gophercises.com/).
 4. [HTML Link Parser](https://courses.calhoun.io/lessons/les_goph_16)
 5. [Sitemap Builder](https://courses.calhoun.io/lessons/les_goph_24)
 6. [Hacker Rank Problems](https://courses.calhoun.io/lessons/les_goph_33)
+7. [CLI Task Manager](https://courses.calhoun.io/lessons/les_goph_35)
