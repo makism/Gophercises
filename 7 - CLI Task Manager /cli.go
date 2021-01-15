@@ -12,7 +12,7 @@ var validCommands map[string]CommandInterface
 func intercept(commandWithParams []string) {
 	validCommands = make(map[string]CommandInterface)
 	validCommands["add"] = NewCommandAdd()
-	//validCommands["do"] = NewCommandDo()
+	validCommands["do"] = NewCommandDo()
 	validCommands["list"] = NewCommandList()
 
 	command := commandWithParams[0]

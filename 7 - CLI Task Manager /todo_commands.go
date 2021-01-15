@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strconv"
 	"strings"
 )
 
@@ -35,6 +36,25 @@ func invokeHelp(args []string, c CommandInterface) {
 	if len(args) == 1 && args[0] == "--help" {
 		c.Help()
 	}
+}
+
+func NewCommandDo() CommandDo {
+	return CommandDo{meta: CommandMeta{"do", "do", true}}
+}
+
+func (c CommandDo) Execute(args []string) {
+	invokeHelp(args, c)
+
+	if len(args) == 1 {
+		index, _ := strconv.Atoi(args[0])
+		DbDeleteRecordByIndex(index)
+	} else {
+		fmt.Println("Too many arguments. An index is required.")
+	}
+}
+
+func (c CommandDo) Help() {
+	fmt.Println(c.meta.help)
 }
 
 func NewCommandList() CommandList {

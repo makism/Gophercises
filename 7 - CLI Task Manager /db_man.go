@@ -41,6 +41,17 @@ func DbAddRecord(item string) {
 	})
 }
 
+func DbDeleteRecordByIndex(index int) {
+	Db.Update(func(tx *bolt.Tx) error {
+		b := tx.Bucket([]byte("todolist"))
+
+		key := itob(index)
+		b.Delete(key)
+
+		return nil
+	})
+}
+
 func DbListAll() {
 	Db.View(func(tx *bolt.Tx) error {
 		b := tx.Bucket([]byte("todolist"))
